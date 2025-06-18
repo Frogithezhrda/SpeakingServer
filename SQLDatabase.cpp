@@ -15,7 +15,8 @@ SQLDatabase::SQLDatabase()
 				USER_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 				NAME TEXT NOT NULL,
 				PASSWORD TEXT NOT NULL,
-				EMAIL TEXT NOT NULL UNIQUE
+				EMAIL TEXT NOT NULL,
+				PROFILE_PATH NOT NULL
 			);
 			)";
 	Query query = Query(sqlStatement, nullptr, nullptr);
@@ -42,4 +43,49 @@ void SQLDatabase::close()
 		sqlite3_close(this->db);
 		this->db = nullptr;
 	}
+}
+
+void SQLDatabase::addNewUser(const std::string& userName, const std::string& password, const std::string& email, const std::string& address, const std::string& phoneNumber, const std::string& birthDate)
+{
+	// Creating SQL message that adds user.
+
+	std::stringstream ss;
+	ss << "INSERT INTO USERS(NAME, PASSWORDD, EMAIL, ADDRESS, PHONE, BIRTH_DATE) "
+		<< "VALUES('" << userName << "', '" << password << "', '" << email << "', '"
+		<< address << "', '" << phoneNumber << "', '" << birthDate << "');";
+
+	std::string query = ss.str();
+	Query queryRequest = Query(query.c_str(), nullptr, nullptr);
+
+	createQuery(queryRequest);
+}
+
+bool SQLDatabase::doesPasswordMatch(const std::string& userName, const std::string& password) 
+{
+	// Creating SQL message that returns 1 if the password is matching and 0 if not 
+
+	std::stringstream ss;
+	ss << "SELECT COUNT(*) FROM USERS "
+		<< "WHERE USERS.NAME = '" << userName << "' AND USERS.PASSWORDD = '" << password << "';";
+
+	std::string query = ss.str();
+	const char* sqlStatement = query.c_str();
+	int count = 0;
+	Query queryRequest = Query(query.c_str(), &count, callbackCount);
+
+	createQuery(queryRequest);
+
+	return count > 0;
+}
+
+
+
+int SQLDatabase::callbackCount(void* data, int argc, char** argv, char** colNames)
+{
+	// Returning the number in data
+	if (argc > 0 && argv[0]) 
+	{
+		*static_cast<int*>(data) = std::stoi(argv[0]);
+	}
+	return 0;
 }

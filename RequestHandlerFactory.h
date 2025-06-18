@@ -6,7 +6,6 @@ class RequestHandlerFactory
 {
 public:
 	RequestHandlerFactory(std::shared_ptr<IDatabase> database);
-	virtual ~RequestHandlerFactory();
 
 	//std::unique_ptr<LoginRequestHandler> createLoginRequestHandler(std::shared_ptr<SOCKET> userSocket) const;
 	//std::unique_ptr<MenuRequestHandler> createMenuRequestHandler(std::shared_ptr<LoggedUser> user) const;

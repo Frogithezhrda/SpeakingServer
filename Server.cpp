@@ -17,18 +17,5 @@ void Server::run()
 	std::string command = "";
 	std::thread clientsThread(&Communicator::startHandleRequests, m_communicator.get());
 	clientsThread.detach();
-	while (true)
-	{
-		//wiritng command seperatly until EXIT
-		std::cout << "Write Commands: ";
-		std::cin >> command;
-		if (command == EXIT)
-		{
-			break;
-		}
-		else
-		{
-			std::cout << command << std::endl;
-		}
-	}
+	while (true);
 }
