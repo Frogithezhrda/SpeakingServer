@@ -124,6 +124,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="JsonRequestDeserializer.cpp" />
+    <ClCompile Include="JsonResponseSerializer.cpp" />
+    <ClCompile Include="LoginManager.cpp" />
+    <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Server.cpp" />
@@ -136,8 +140,15 @@
     <ClInclude Include="DatabaseException.hpp" />
     <ClInclude Include="IDatabase.h" />
     <ClInclude Include="IRequestHandler.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="JsonRequestDeserializer.h" />
+    <ClInclude Include="JsonResponseSerializer.h" />
+    <ClInclude Include="LoggedUser.hpp" />
+    <ClInclude Include="LoginManager.h" />
+    <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="RequestException.hpp" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="Requests.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="SQLDatabase.h" />
     <ClInclude Include="sqlite3.h" />

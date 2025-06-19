@@ -1,7 +1,7 @@
 #include "Communicator.h"
 
 std::recursive_mutex Communicator::_clientsMutex;
-std::map<SOCKET, std::unique_ptr<IRequestHandler>> Communicator::m_clients;
+std::map<SOCKET, std::shared_ptr<IRequestHandler>> Communicator::m_clients;
 
 Communicator::Communicator(std::shared_ptr<RequestHandlerFactory> handlerFactory) : m_handlerFactory(handlerFactory)
 {
@@ -93,7 +93,7 @@ void Communicator::handleNewClient(const SOCKET& clientSocket)
 	//we must lock the using the lockguard
 	{
 		std::lock_guard<std::recursive_mutex> lock(_clientsMutex);
-		//m_clients[clientSocket] = m_handlerFactory->createLoginRequestHandler(std::make_shared<SOCKET>(clientSocket));
+		m_clients[clientSocket] = m_handlerFactory->createLoginRequestHandler(std::make_shared<SOCKET>(clientSocket));
 	}
 
 	try
@@ -126,7 +126,7 @@ void Communicator::handleNewClient(const SOCKET& clientSocket)
 			{
 				std::lock_guard<std::recursive_mutex> lock(_clientsMutex);
 				result = m_clients[clientSocket]->handleRequest(requestInfo);
-				m_clients[clientSocket] = std::move(result.newHandler);
+				m_clients[clientSocket] = result.newHandler;
 			}
 			sendMessage(clientSocket, result.response);
 			memset(data, 0, MESSAGE_SIZE);

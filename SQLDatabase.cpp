@@ -13,7 +13,7 @@ SQLDatabase::SQLDatabase()
 	const char* sqlStatement = R"(
 			CREATE TABLE IF NOT EXISTS USERS (
 				USER_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-				NAME TEXT NOT NULL,
+				NAME TEXT NOT NULL UNIQUE,
 				PASSWORD TEXT NOT NULL,
 				EMAIL TEXT NOT NULL,
 				PROFILE_PATH NOT NULL
@@ -45,14 +45,14 @@ void SQLDatabase::close()
 	}
 }
 
-void SQLDatabase::addNewUser(const std::string& userName, const std::string& password, const std::string& email, const std::string& address, const std::string& phoneNumber, const std::string& birthDate)
+void SQLDatabase::addNewUser(const std::string& userName, const std::string& password, const std::string& email, const std::string& profilePath)
 {
 	// Creating SQL message that adds user.
 
 	std::stringstream ss;
-	ss << "INSERT INTO USERS(NAME, PASSWORDD, EMAIL, ADDRESS, PHONE, BIRTH_DATE) "
+	ss << "INSERT INTO USERS(NAME, PASSWORDD, EMAIL, PROFILE_PATH) "
 		<< "VALUES('" << userName << "', '" << password << "', '" << email << "', '"
-		<< address << "', '" << phoneNumber << "', '" << birthDate << "');";
+		<< profilePath << "');";
 
 	std::string query = ss.str();
 	Query queryRequest = Query(query.c_str(), nullptr, nullptr);

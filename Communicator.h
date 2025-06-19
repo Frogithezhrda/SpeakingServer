@@ -5,7 +5,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
-//#include "LoginRequestHandler.h"
+#include "LoginRequestHandler.h"
 #include "IRequestHandler.h"
 #include "CommunicatorException.hpp"
 #include <mutex>
@@ -35,7 +35,7 @@ private:
 	void bindAndListen();
 	void handleNewClient(const SOCKET& clientSocket);
 
-	static std::map<SOCKET, std::unique_ptr<IRequestHandler>> m_clients;
+	static std::map<SOCKET, std::shared_ptr<IRequestHandler>> m_clients;
 	SOCKET m_serverSocket;
 	std::shared_ptr<RequestHandlerFactory> m_handlerFactory;
 	static std::recursive_mutex _clientsMutex;

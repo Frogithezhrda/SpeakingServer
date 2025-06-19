@@ -1,7 +1,7 @@
 #pragma comment (lib, "ws2_32.lib")
 #include "Server.h"
 #include "WSAInitializer.hpp"
-void main(void)
+int main(void)
 {
 	WSAInitializer wsa;
 	try
@@ -15,4 +15,5 @@ void main(void)
 	{
 		std::cerr << exception.what();
 	}
+	return 0;
 }

@@ -8,6 +8,10 @@ class IRequestHandler;
 
 typedef std::vector<unsigned char> Buffer;
 
+enum Status
+{
+	Bad = 0, Ok = 1
+};
 enum class RequestId
 {
 	NONE = 0x0, ERROR_MSG, LOGIN, SIGNUP, LOGOUT, CREATE_ROOM, JOIN_ROOM, GET_PLAYERS_IN_ROOM, GET_ROOMS_CHAT, CLOSE_ROOM, START_ROOM,
@@ -24,9 +28,8 @@ typedef struct RequestInfo
 typedef struct RequestResult
 {
 	Buffer response;
-	std::unique_ptr<IRequestHandler> newHandler;
+	std::shared_ptr<IRequestHandler> newHandler;
 } RequestResult;
-
 
 
 class IRequestHandler
