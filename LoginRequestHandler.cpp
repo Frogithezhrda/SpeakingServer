@@ -36,7 +36,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& request) con
         result.response = JsonResponseSerializer::serializeResponse(loginResponse);
         return result;
 	}
-    result.newHandler = m_handlerFactory->createLoginRequestHandler(m_currentUserSock);
+    result.newHandler = m_handlerFactory->createLoginRequestHandler(m_handlerFactory, m_currentUserSock);
     errorResponse.message = "Error: Not A Login/Signup Request!";
     result.response = JsonResponseSerializer::serializeResponse(errorResponse);
     return result;

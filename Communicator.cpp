@@ -93,7 +93,7 @@ void Communicator::handleNewClient(const SOCKET& clientSocket)
 	//we must lock the using the lockguard
 	{
 		std::lock_guard<std::recursive_mutex> lock(_clientsMutex);
-		m_clients[clientSocket] = m_handlerFactory->createLoginRequestHandler(std::make_shared<SOCKET>(clientSocket));
+		m_clients[clientSocket] = m_handlerFactory->createLoginRequestHandler(m_handlerFactory, std::make_shared<SOCKET>(clientSocket));
 	}
 
 	try
