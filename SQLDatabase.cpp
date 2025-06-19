@@ -18,7 +18,16 @@ SQLDatabase::SQLDatabase()
 				EMAIL TEXT NOT NULL,
 				PROFILE_PATH NOT NULL
 			);
+
+			CREATE TABLE IF NOT EXISTS CONTACTS (
+				USER_ID INTEGER NOT NULL,
+				CONTACT_ID INTEGER NOT NULL,
+				FOREIGN KEY (USER_ID) REFERENCES USERS(USER_ID),
+				FOREIGN KEY (CONTACT_ID) REFERENCES USERS(USER_ID),
+				PRIMARY KEY (USER_ID, CONTACT_ID)
+			);
 			)";
+
 	Query query = Query(sqlStatement, nullptr, nullptr);
 	createQuery(query);
 }

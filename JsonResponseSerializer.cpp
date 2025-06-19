@@ -18,3 +18,9 @@ Buffer JsonResponseSerializer::serializeResponse(const ErrorResponse& errorRespo
 	return serialize("message", errorResponse.message, buffer, RequestId::ERROR_MSG);
 }
 
+Buffer JsonResponseSerializer::serializeResponse(const LogoutResponse& logoutResponse)
+{
+	Buffer buffer;
+	return serialize("status", logoutResponse.status, buffer, RequestId::LOGOUT);
+}
+

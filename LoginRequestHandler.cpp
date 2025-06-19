@@ -1,4 +1,5 @@
 #include "LoginRequestHandler.h"
+#include "MenuRequestHandler.h"
 
 LoginRequestHandler::LoginRequestHandler(std::shared_ptr<RequestHandlerFactory> factory, std::shared_ptr<SOCKET> currentSocket)
 {
@@ -32,7 +33,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& request) con
             user = std::make_shared<LoggedUser>(login.username, m_currentUserSock);
             loginResponse.status = m_handlerFactory->getLoginManager()->signin(login.password, user) ? Ok : Bad;
         }
-        //loginResponse.status == Ok ? result.newHandler = m_handlerFactory->createMenuRequestHandler(user) : result.newHandler = m_handlerFactory->createLoginRequestHandler(m_currentUserSock);
+        loginResponse.status == Ok ? result.newHandler = m_handlerFactory->createMenuRequestHandler(m_handlerFactory, user) : result.newHandler = m_handlerFactory->createLoginRequestHandler(m_handlerFactory, m_currentUserSock);
         result.response = JsonResponseSerializer::serializeResponse(loginResponse);
         return result;
 	}

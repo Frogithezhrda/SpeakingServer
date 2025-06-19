@@ -13,6 +13,8 @@ public:
 	static Buffer serializeResponse(const LoginResponse& loginResponse);
 	static Buffer serializeResponse(const SignupResponse& signupResponse);
 	static Buffer serializeResponse(const ErrorResponse& errorResponse);
+	static Buffer serializeResponse(const LogoutResponse& logoutResponse);
+
 
 private:
 

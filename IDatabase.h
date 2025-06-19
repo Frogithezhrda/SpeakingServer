@@ -1,4 +1,5 @@
 #pragma once
+
 typedef struct Query
 {
 	const char* sqlStatement;

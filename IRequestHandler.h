@@ -14,8 +14,37 @@ enum Status
 };
 enum class RequestId
 {
-	NONE = 0x0, ERROR_MSG, LOGIN, SIGNUP, LOGOUT, CREATE_ROOM, JOIN_ROOM, GET_PLAYERS_IN_ROOM, GET_ROOMS_CHAT, CLOSE_ROOM, START_ROOM,
-	LEAVE_ROOM, JOIN_CHAT, CREATE_CHAT, LEAVE_CHAT, GET_MESSAGES, EXIT
+    LOGIN,
+    SIGNUP,
+    LOGOUT,
+
+    //base user
+    GET_CONTACTS_LIST,       
+    SEARCH_USER,              
+    START_CHAT_WITH_USER,     
+
+    //direct chats
+    SEND_DIRECT_MESSAGE,
+    GET_DIRECT_MESSAGES,
+    START_DIRECT_CALL,
+    END_DIRECT_CALL,
+
+    //group rooms
+    CREATE_ROOM,
+    INVITE_TO_ROOM,
+    JOIN_ROOM,
+    LEAVE_ROOM,
+    CLOSE_ROOM,
+    GET_ROOM_PARTICIPANTS,
+
+    //groups
+    SEND_ROOM_MESSAGE,
+    GET_ROOM_MESSAGES,
+    START_ROOM_CALL,
+    END_ROOM_CALL,
+
+    //errors
+    ERROR_MSG,
 };
 
 typedef struct RequestInfo
