@@ -2,6 +2,8 @@
 #include <memory>
 #include "IDatabase.h"
 #include "LoginManager.h"
+#include "MenuManager.h"
+#include "RoomManager.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
@@ -16,9 +18,11 @@ public:
 	//std::unique_ptr<RoomAdminRequestHandler> createAdminRequestHandler(std::shared_ptr<LoggedUser> user, std::shared_ptr<Room> room) const;
 	//std::unique_ptr<RoomMemberRequestHandler> createRoomMemberHandler(std::shared_ptr<LoggedUser> user, std::shared_ptr<Room> room) const;
 	std::shared_ptr<LoginManager> getLoginManager() const;
-	//RoomManager* getRoomManager() const;
+	std::shared_ptr<MenuManager> getMenuManager() const;
+	std::shared_ptr<RoomManager> getRoomManager() const;
 private:
-	//RoomManager* m_roomManager;
 	std::shared_ptr<IDatabase> m_database;
 	std::shared_ptr<LoginManager> m_loginManager;
+	std::shared_ptr<MenuManager> m_menuManager;
+	std::shared_ptr<RoomManager> m_roomManager;
 };

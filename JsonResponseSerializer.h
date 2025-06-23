@@ -14,6 +14,12 @@ public:
 	static Buffer serializeResponse(const SignupResponse& signupResponse);
 	static Buffer serializeResponse(const ErrorResponse& errorResponse);
 	static Buffer serializeResponse(const LogoutResponse& logoutResponse);
+	static Buffer serializeResponse(const SearchResponse& searchResponse);
+	static Buffer serializeResponse(const CreateRoomResponse& createResponse);
+	static Buffer serializeResponse(const JoinRoomResponse& joinResponse);
+	static Buffer serializeResponse(const getParticipantsResponse& participantsResponse);
+	static Buffer serializeResponse(const getContactsResponse& contactsResponse);
+	static Buffer serializeResponse(const StartChatResponse& startResponse);
 
 
 private:

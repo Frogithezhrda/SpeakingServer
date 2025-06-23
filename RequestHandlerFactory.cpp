@@ -6,6 +6,8 @@ RequestHandlerFactory::RequestHandlerFactory(std::shared_ptr<IDatabase> database
 {
 	m_database = database;
 	m_loginManager = std::make_shared<LoginManager>(database);
+	m_menuManager = std::make_shared<MenuManager>(database);
+	m_roomManager = std::make_shared<RoomManager>();
 }
 
 std::shared_ptr<LoginRequestHandler> RequestHandlerFactory::createLoginRequestHandler(std::shared_ptr<RequestHandlerFactory> selfPointer, std::shared_ptr<SOCKET> userSocket) const
@@ -23,3 +25,12 @@ std::shared_ptr<LoginManager> RequestHandlerFactory::getLoginManager() const
 	return m_loginManager;
 }
 
+std::shared_ptr<MenuManager> RequestHandlerFactory::getMenuManager() const
+{
+	return m_menuManager;
+}
+
+std::shared_ptr<RoomManager> RequestHandlerFactory::getRoomManager() const
+{
+	return m_roomManager;
+}

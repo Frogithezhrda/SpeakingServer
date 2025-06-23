@@ -24,3 +24,28 @@ Buffer JsonResponseSerializer::serializeResponse(const LogoutResponse& logoutRes
 	return serialize("status", logoutResponse.status, buffer, RequestId::LOGOUT);
 }
 
+Buffer JsonResponseSerializer::serializeResponse(const SearchResponse& searchResponse)
+{
+	Buffer buffer;
+	json searchResult = {
+	{ "status", searchResponse.status },
+	{ "userId", searchResponse.userId },
+	{ "username", searchResponse.username },
+	{ "profilePath", searchResponse.profilePath }
+	};
+
+
+	return serialize("Search", searchResult, buffer, RequestId::SEARCH_USER);
+}
+
+Buffer JsonResponseSerializer::serializeResponse(const CreateRoomResponse& createResponse)
+{
+	Buffer buffer;
+	return serialize("status", createResponse.status, buffer, RequestId::CREATE_ROOM);
+}
+
+Buffer JsonResponseSerializer::serializeResponse(const JoinRoomResponse& joinResponse)
+{
+	Buffer buffer;
+	return serialize("status", joinResponse.status, buffer, RequestId::JOIN_ROOM);
+}

@@ -78,7 +78,6 @@ bool SQLDatabase::doesPasswordMatch(const std::string& userName, const std::stri
 		<< "WHERE USERS.NAME = '" << userName << "' AND USERS.PASSWORDD = '" << password << "';";
 
 	std::string query = ss.str();
-	const char* sqlStatement = query.c_str();
 	int count = 0;
 	Query queryRequest = Query(query.c_str(), &count, callbackCount);
 
@@ -87,7 +86,16 @@ bool SQLDatabase::doesPasswordMatch(const std::string& userName, const std::stri
 	return count > 0;
 }
 
-
+std::shared_ptr<Contact> SQLDatabase::getUser(const std::string& userToSearch)
+{
+	std::stringstream ss;
+	ss << "SELECT NAME, USER_ID, PROFILE_PATH FROM USERS WHERE NAME = '"
+		<< userToSearch << "';";
+	std::string query = ss.str();
+	std::shared_ptr<Contact> contact;
+	Query queryRequest = Query(query.c_str(), contact.get(), callbackUser);
+	return contact;
+}
 
 int SQLDatabase::callbackCount(void* data, int argc, char** argv, char** colNames)
 {
@@ -95,6 +103,15 @@ int SQLDatabase::callbackCount(void* data, int argc, char** argv, char** colName
 	if (argc > 0 && argv[0]) 
 	{
 		*static_cast<int*>(data) = std::stoi(argv[0]);
+	}
+	return 0;
+}
+
+int SQLDatabase::callbackUser(void* data, int argc, char** argv, char** colNames)
+{
+	if (argc > 0 && argv[0])
+	{
+		*static_cast<Contact*>(data) = Contact(argv[0], std::stoi(argv[1]), argv[2]);
 	}
 	return 0;
 }

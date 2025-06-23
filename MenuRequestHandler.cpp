@@ -47,11 +47,31 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& request) cons
 
 RequestResult MenuRequestHandler::createRoom(const Buffer& buffer)
 {
-	return RequestResult();
+	RequestResult result;
+	CreateRoomResponse response;
+	CreateRoomRequest request = JsonRequestDeserializer::deserializeCreateRoomRequest(buffer);
+
+	RoomData data;
+	data.maxPlayers = request.maxUsers;
+	data.name = request.roomName;
+	try
+	{
+		auto room = m_handlerFactory->getRoomManager()->createRoom(m_user, data);
+		//result.newHandler = std::move(m_handlerFactory->createAdminRequestHandler(m_user, room));
+		response.status = Ok;
+	}
+	catch (const std::exception&)
+	{
+		response.status = Bad;
+	}
+
+	result.response = JsonResponseSerializer::serializeResponse(response);
+	return result;
 }
 
 RequestResult MenuRequestHandler::getContacts(const Buffer& buffer)
 {
+	
 	return RequestResult();
 }
 
@@ -70,16 +90,45 @@ RequestResult MenuRequestHandler::logout(const Buffer& buffer)
 
 RequestResult MenuRequestHandler::searchUsers(const Buffer& buffer)
 {
-	return RequestResult();
+	RequestResult result;
+	auto contact = m_handlerFactory->getMenuManager()->searchUser(JsonRequestDeserializer::deserializeSearchRequest(buffer).username).get();
+	if (contact)
+	{
+		result.response = JsonResponseSerializer::serializeResponse({ Ok, contact->username, contact->profilePath, contact->id });
+	}
+	else
+	{
+		result.response = JsonResponseSerializer::serializeResponse({ Bad, "", "", Bad });
+	}
+	result.newHandler = m_handlerFactory->createMenuRequestHandler(m_handlerFactory, m_user);
+	return result;
 }
 
 RequestResult MenuRequestHandler::joinRoom(const Buffer& buffer)
 {
-	return RequestResult();
+	JoinRoomResponse join;
+	RequestResult result;
+	try
+	{
+		auto room = m_handlerFactory->getRoomManager()->joinRoom(JsonRequestDeserializer::deserializeJoinRoomRequest(buffer).roomId, m_user);
+
+		room.first ? join.status = Ok : join.status = Bad;
+		result.response = JsonResponseSerializer::serializeResponse(join);
+		return result;
+	}
+	catch (const std::exception&)
+	{
+		join.status = Bad;
+	}
+
+	result.response = JsonResponseSerializer::serializeResponse(join);
+	return result;
 }
 
 RequestResult MenuRequestHandler::startChat(const Buffer& buffer)
 {
+	JsonRequestDeserializer::deserializeStartChatRequest(buffer).usernameToChat;
+	m_handlerFactory->getMenuManager()->startChat();
 	return RequestResult();
 }
 
